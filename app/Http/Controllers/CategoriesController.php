@@ -50,21 +50,20 @@ class CategoriesController extends Controller
     public function destroy($id){
 
         $category = Category::find($id);
-
+        
         if(!$category){
             return response()->json([
                 'message' => 'Record not found'
             ],200);
         }
 
-        if($category->posts){
+        if(empty($category->posts)){
             return response()->json([
                 'error' => 'Não foi possível excluir, existe post relacionado com essa categoria.'
             ],200);
         }
 
         $category->delete();
-
-        return response()->json(['message' => 'success']);
+        return response()->json(['message' => 'success']); 
     }
 }
