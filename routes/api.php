@@ -17,12 +17,11 @@ use Illuminate\Http\Request;
 //     return $request->user();
 // })->middleware('auth:api');
 
-Route::group(array('middleware' => 'cors','prefix' => 'v1'), function()
-{
+Route::group(array('middleware' => ['cors'],'prefix' => 'v1'), function () {
     Route::get('/', function () {
-        return response()->json(['message' => 'Nutxt API', 'status' => 'Connected']);;
+        return response()->json(['message' => 'Nutxt API', 'status' => 'Connected']);
     });
-
+    
     Route::resource('posts', 'PostsController');
     Route::resource('categories', 'CategoriesController');
 });
