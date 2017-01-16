@@ -26,6 +26,9 @@ class RouteServiceProvider extends ServiceProvider
         //
 
         parent::boot();
+
+        Route::model('categories', App\Models\Category::class);
+        Route::model('posts', App\Models\Post::class);
     }
 
     /**

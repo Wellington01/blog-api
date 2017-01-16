@@ -13,6 +13,20 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::get('/user', function (Request $request) {
-    return $request->user();
-})->middleware('auth:api');
+// Route::get('/user', function (Request $request) {
+//     return $request->user();
+// })->middleware('auth:api');
+
+Route::group(array('middleware' => 'cors','prefix' => 'v1'), function()
+{
+    Route::get('/', function () {
+        return response()->json(['message' => 'Nutxt API', 'status' => 'Connected']);;
+    });
+
+    Route::resource('posts', 'PostsController');
+    Route::resource('categories', 'CategoriesController');
+});
+
+Route::get('/', function () {
+    return redirect('api');
+});

@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Category;
+use App\Models\Category;
 use Illuminate\Http\Request;
 use App\Http\Requests;
 
@@ -15,9 +15,7 @@ class CategoriesController extends Controller
 		return response()->json($categories);
 	}
 
-    public function show($id){
-
-        $category = Category::find($id);
+    public function show(Category $category){
 
         return response()->json($category, 200);
     }
@@ -31,9 +29,7 @@ class CategoriesController extends Controller
         return response()->json($request, 201);
 	}
 
-    public function update(Request $request, $id){
-
-        $category = Category::find($id);
+    public function update(Request $request, Category $category){
 
         if(!$category){
             return response()->json([
@@ -47,17 +43,15 @@ class CategoriesController extends Controller
         return response()->json($category);
     }
 
-    public function destroy($id){
+    public function destroy(Category $category){
 
-        $category = Category::find($id);
-        
         if(!$category){
             return response()->json([
                 'message' => 'Record not found'
             ],200);
         }
 
-        if(empty($category->posts)){
+        if($category->posts->count() > 0){
             return response()->json([
                 'error' => 'Não foi possível excluir, existe post relacionado com essa categoria.'
             ],200);

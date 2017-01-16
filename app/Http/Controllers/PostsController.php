@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Requests;
-use App\Post;
+use App\Models\Post;
 
 class PostsController extends Controller
 {
@@ -15,9 +15,7 @@ class PostsController extends Controller
 		return response()->json($posts);
 	}
 
-    public function show($id){
-
-        $post = Post::find($id);
+    public function show(Post $post){
 
         return response()->json($post, 200);
     }
@@ -32,9 +30,7 @@ class PostsController extends Controller
 		return response()->json($post, 201);
 	}
 
-    public function update(Request $request, $id){
-
-        $Post = Post::find($id);
+    public function update(Request $request, Post $post){
 
         if(!$Post){
             return response()->json([
@@ -48,7 +44,7 @@ class PostsController extends Controller
         return response()->json($Post);
     }
 
-    public function destroy($id){
+    public function destroy(Post $post){
 
         $post = Post::find($id);
 

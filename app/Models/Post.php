@@ -1,6 +1,6 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
@@ -11,6 +11,6 @@ class post extends Model
     protected $fillable = ['category_id','name', 'content', 'rating'];
 
     public function categories(){
-        return $this->BelongsTo('App\Categories');
+        return $this->BelongsTo('App\Models\Category');
     } 
 }
