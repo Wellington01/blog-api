@@ -50,8 +50,8 @@ class CategoriesController extends Controller
         
         if (!$category) {
             return response()->json([
-            'message' => 'Record not found'
-            ], 200);
+            'error' => 'Erro ao excluir categoria.'
+            ], 404);
         }
         
         if ($category->posts->count() > 0) {
@@ -61,6 +61,6 @@ class CategoriesController extends Controller
         }
         
         $category->delete();
-        return response()->json(['message' => 'success']);
+        return response()->json(['success' => 'Excluído com sucesso.'], 200);
     }
 }

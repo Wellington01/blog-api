@@ -47,15 +47,13 @@ class PostsController extends Controller
 
     public function destroy(Post $post)
     {
-        $post = Post::find($id);
-        
         if (!$post) {
             return response()->json([
-            'message' => 'Record not found'
+            'error' => 'Erro ao excluir categoria.'
             ], 404);
         }
         
         $post->delete();
-        return response()->json(['message' => 'success']);
+        return response()->json(['success' => 'Excluído com sucesso.']);
     }
 }
