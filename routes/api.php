@@ -17,7 +17,7 @@ use Illuminate\Http\Request;
 //     return $request->user();
 // })->middleware('auth:api');
 
-Route::group(array('middleware' => ['cors'],'prefix' => 'v1'), function () {
+Route::group(array('middleware' => ['cors','auth:api'],'prefix' => 'v1'), function () {
     Route::get('/', function () {
         return response()->json(['message' => 'Nutxt API', 'status' => 'Connected']);
     });
@@ -27,5 +27,5 @@ Route::group(array('middleware' => ['cors'],'prefix' => 'v1'), function () {
 });
 
 Route::get('/', function () {
-    return redirect('api');
+    return redirect('v1');
 });

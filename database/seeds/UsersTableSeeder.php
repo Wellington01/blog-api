@@ -15,6 +15,7 @@ class UsersTableSeeder extends Seeder
             'name' => 'Wellington Cristi Vilela Santana',
             'email' => 'wellington.c.v.santana@gmail.com',
             'password' => bcrypt('123456'),
+            'api_token' => str_random(60)
         ]);
     }
 }
