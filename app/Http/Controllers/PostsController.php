@@ -33,16 +33,16 @@ class PostsController extends Controller
     
     public function update(Request $request, Post $post)
     {
-        if (!$Post) {
+        if (!$post) {
             return response()->json([
             'message' => 'Record not found'
             ], 404);
         }
         
-        $Post->fill($request->all());
-        $Post->save();
+        $post->fill($request->all());
+        $post->save();
         
-        return response()->json($Post);
+        return response()->json($post);
     }
 
     public function destroy(Post $post)
