@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Requests;
+use App\Http\Requests\ValidatePost;
 use App\Models\Post;
 
 class PostsController extends Controller
@@ -12,48 +13,32 @@ class PostsController extends Controller
     {
         $posts = Post::all();
         
-        return response()->json($posts);
+        return compact('posts');
     }
     
     public function show(Post $post)
     {
-
-        return response()->json($post, 200);
+        return compact('post');
     }
     
-    public function store(Request $request)
+    public function store(ValidatePost $request)
     {
-        $post = new Post();
-        $post->fill($request->all());
+        $post = Post::create($request->all());
         
-        $post->save();
-        
-        return response()->json($post, 201);
+        return compact('post');
     }
     
-    public function update(Request $request, Post $post)
+    public function update(ValidatePost $request, Post $post)
     {
-        if (!$post) {
-            return response()->json([
-            'message' => 'Record not found'
-            ], 404);
-        }
-        
         $post->fill($request->all());
         $post->save();
         
-        return response()->json($post);
+        return compact('post');
     }
 
     public function destroy(Post $post)
     {
-        if (!$post) {
-            return response()->json([
-            'error' => 'Erro ao excluir categoria.'
-            ], 404);
-        }
-        
         $post->delete();
-        return response()->json(['success' => 'Excluído com sucesso.']);
+        return response(['success' => 'Excluído com sucesso.'], 200);
     }
 }

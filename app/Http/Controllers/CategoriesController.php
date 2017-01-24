@@ -4,63 +4,48 @@ namespace App\Http\Controllers;
 
 use App\Models\Category;
 use Illuminate\Http\Request;
+use App\Http\Requests\ValidateCategory;
 use App\Http\Requests;
 
 class CategoriesController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         $categories = Category::with('posts')->get();
         
-        return response()->json($categories);
+        return compact('categories');
     }
     
     public function show(Category $category)
     {
-        
-        return response()->json($category, 200);
+        return compact('category');
     }
     
-    public function store(Request $request)
+    public function store(ValidateCategory $request)
     {
+        $category = Category::create($request->all());
         
-        $category = new Category();
-        $category->fill($request->all());
-        $category->save();
-        
-        return response()->json($request, 201);
+        return compact('category');
     }
-
-    public function update(Request $request, Category $category)
+    
+    public function update(ValidateCategory $request, Category $category)
     {
-        if (!$category) {
-            return response()->json([
-            'message' => 'Record not found'
-            ], 404);
-        }
-        
         $category->fill($request->all());
         $category->save();
         
-        return response()->json($category);
+        return compact('category');
     }
     
     public function destroy(Category $category)
     {
-        
-        if (!$category) {
-            return response()->json([
-            'error' => 'Erro ao excluir categoria.'
-            ], 404);
-        }
-        
-        if ($category->posts->count() > 0) {
-            return response()->json([
-            'error' => 'Não foi possível excluir, existe post relacionado com essa categoria.'
+        if ($category->posts->count()) {
+            return response([
+                'error' => 'Não foi possível excluir, existe post relacionado com essa categoria.'
             ], 200);
         }
         
         $category->delete();
-        return response()->json(['success' => 'Excluído com sucesso.'], 200);
+
+        return response(['success' => 'Excluído com sucesso.'], 200);
     }
 }

@@ -18,12 +18,18 @@ use Illuminate\Http\Request;
 // })->middleware('auth:api');
 
 Route::group(array('middleware' => ['cors','auth:api'],'prefix' => 'v1'), function () {
+
     Route::get('/', function () {
         return response()->json(['message' => 'Nutxt API', 'status' => 'Connected']);
     });
     
-    Route::resource('posts', 'PostsController');
-    Route::resource('categories', 'CategoriesController');
+    Route::resource('posts', 'PostsController', ['except' =>[
+        'create', 'edit'
+    ]]);
+    
+    Route::resource('categories', 'CategoriesController', ['except' =>[
+        'create', 'edit'
+    ]]);
 });
 
 Route::get('/', function () {
