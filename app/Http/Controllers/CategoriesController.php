@@ -11,9 +11,17 @@ class CategoriesController extends Controller
 {
     public function index(Request $request)
     {
-        $categories = Category::with('posts')->get();
-        
-        return compact('categories');
+        if ($request->input('isPaginate') === 'true' || $request->exists('page')) {
+            $paginate = Category::with('posts')->paginate(10)->toArray();
+            $items = array_get($paginate, 'data');
+            $pagination = array_except($paginate, 'data');
+
+            return compact('items', 'pagination');
+        } else {
+            $items = Category::with('posts')->get();
+
+            return compact('items');
+        }
     }
     
     public function show(Category $category)

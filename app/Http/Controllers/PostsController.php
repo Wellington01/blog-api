@@ -9,11 +9,19 @@ use App\Models\Post;
 
 class PostsController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $posts = Post::all();
-        
-        return compact('posts');
+        if ($request->input('isPaginate') === 'true' || $request->exists('page')) {
+            $paginate = Post::paginate(5)->toArray();
+            $items = array_get($paginate, 'data');
+            $pagination = array_except($paginate, 'data');
+
+            return compact('items', 'pagination');
+        } else {
+            $items = Post::all();
+
+            return compact('items');
+        }
     }
     
     public function show(Post $post)
