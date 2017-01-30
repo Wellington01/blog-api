@@ -38,8 +38,7 @@ class CategoriesController extends Controller
     
     public function update(ValidateCategory $request, Category $category)
     {
-        $category->fill($request->all());
-        $category->save();
+        $category->update($request->all());
         
         return compact('category');
     }
@@ -47,13 +46,13 @@ class CategoriesController extends Controller
     public function destroy(Category $category)
     {
         if ($category->posts->count()) {
-            return response([
+            return [
                 'error' => 'Não foi possível excluir, existe post relacionado com essa categoria.'
-            ], 200);
+            ];
         }
         
         $category->delete();
 
-        return response(['success' => 'Excluído com sucesso.'], 200);
+        return ['success' => 'Excluído com sucesso.'];
     }
 }

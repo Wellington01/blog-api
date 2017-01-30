@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Http\Requests;
 use App\Http\Requests\ValidatePost;
 use App\Models\Post;
 
@@ -38,8 +37,7 @@ class PostsController extends Controller
     
     public function update(ValidatePost $request, Post $post)
     {
-        $post->fill($request->all());
-        $post->save();
+        $post->update($request->all());
         
         return compact('post');
     }
@@ -47,6 +45,7 @@ class PostsController extends Controller
     public function destroy(Post $post)
     {
         $post->delete();
-        return response(['success' => 'Excluído com sucesso.'], 200);
+
+        return ['success' => 'Excluído com sucesso.'];
     }
 }
